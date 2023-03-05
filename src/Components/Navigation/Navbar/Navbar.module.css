@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700&display=swap');
+.Navbar {
+    background-color: cornflowerblue;
+    height: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 2rem;
+    font-family: 'Assistant', sans-serif;
+    font-weight: bold;
+}
