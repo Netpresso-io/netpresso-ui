@@ -5,7 +5,7 @@ import {InfluxDB, flux } from "@influxdata/influxdb-client";
 
 // TODO: switch to secret on beta release
 const INFLUX_URL = "http://localhost:8086";
-const INFLUX_TOKEN = "vf3gPF12x61goLdqEXVOjNvxF8o_foJ4n8iLG0xP7sMuoi9Sy0GArPHvLJ1ystJcZK2y2FKb8A313voVC1EqCQ==";
+const INFLUX_TOKEN = "uLlItTERfT2xi8Pk3dLsW2-H54atoV6AFotNfnY9Fr63CnODTmym-GTlQPmSVTo-aZ0rNToeST6CxAZyDI88xA==";
 const INFLUX_ORG = "Netpresso";
 const INFLUX_BUCKET = "speed-test-metrics";
 
@@ -54,17 +54,11 @@ const DynamicData = () => {
             trigger: "axis",
             formatter: function (params) {
                 const now = new Date(params[0].value[0])
-                return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${params[0].value[1]} mb/s`
+                return `${now.getDate()}/${now.getMonth()+1}  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${params[0].value[1]} mb/s`
             },
         },
         xAxis: {
             type: "time",
-            axisLabel: {
-                formatter: (function (value) {
-                    const now = new Date(value);
-                    return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-                })
-            }
         },
         yAxis: {
             type: "value",
