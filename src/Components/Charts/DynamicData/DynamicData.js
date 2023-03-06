@@ -2,22 +2,21 @@ import React, {useState, useEffect} from "react";
 import classes from "./DynamicData.module.css"
 import ReactEcharts from "echarts-for-react";
 
-const UPDATE_INTERVAL = 3000 // 15 minutes
-
-const fetchData = () => {
-    console.log("Data fetched");
-    const now = new Date();
-    return [now.getTime(), Math.floor(Math.random() * (100 + 1))]
-
-}
+const UPDATE_INTERVAL = 1000 * 60 * 15 // 15 minutes
 
 const DynamicData = () => {
     const [data, setData] = useState([]);
     useEffect(() => {
-        const interval = setInterval(() => {
+        const fetchData = async () => {
+            console.log("Data fetched");
+            const now = new Date();
+            const newEntry = [now.getTime(), Math.floor(Math.random() * (100 + 1))]
             const newData = [...data]
-            newData.push(fetchData())
+            newData.push(newEntry)
             setData(newData);
+        }
+        const interval = setInterval(() => {
+            fetchData();
         }, UPDATE_INTERVAL);
 
         return () => clearInterval(interval);
