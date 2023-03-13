@@ -4,8 +4,9 @@ import ReactEcharts from "echarts-for-react";
 import {InfluxDB, flux } from "@influxdata/influxdb-client";
 
 // TODO: switch to secret on beta release
+// TODO: switch to influxdb hostname instead of localhost (might require nginx configuration)
 const INFLUX_URL = "http://localhost:8086";
-const INFLUX_TOKEN = "uLlItTERfT2xi8Pk3dLsW2-H54atoV6AFotNfnY9Fr63CnODTmym-GTlQPmSVTo-aZ0rNToeST6CxAZyDI88xA==";
+const INFLUX_TOKEN = "admin-token";
 const INFLUX_ORG = "Netpresso";
 const INFLUX_BUCKET = "speed-test-metrics";
 
