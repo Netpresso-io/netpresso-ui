@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
-import classes from "./DynamicData.module.css"
+import classes from "./DynamicData.module.css";
 import ReactEcharts from "echarts-for-react";
 import {InfluxDB, flux } from "@influxdata/influxdb-client";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import { InputLabel } from '@mui/material';
 
 // TODO: switch to secret on beta release
 // TODO: switch to influxdb hostname instead of localhost (might require nginx configuration)
@@ -35,6 +37,8 @@ const fetchData = (bucket, queryApi, setData) => {
 
 const DynamicData = () => {
     const [data, setData] = useState([]);
+    const [from, setFrom] = useState();
+    const [to, setTo] = useState();
     useEffect(() => {
         const client = new InfluxDB({url: INFLUX_URL, token: INFLUX_TOKEN})
         const queryApi = client.getQueryApi(INFLUX_ORG)
@@ -74,7 +78,13 @@ const DynamicData = () => {
         ]
     }
 
-    return <ReactEcharts option={option} className={classes.DynamicData}/>
+    return (
+        <div>
+            <InputLabel>From:</InputLabel> <DateTimePicker value={from} onChange={}/>
+            <InputLabel>To:</InputLabel> <DateTimePicker value={to}/>
+            <ReactEcharts option={option} className={classes.DynamicData}/>
+        </div>
+    )
 };
 
 export default DynamicData;
