@@ -3,7 +3,7 @@ import classes from "./DynamicData.module.css";
 import ReactEcharts from "echarts-for-react";
 import {InfluxDB, flux } from "@influxdata/influxdb-client";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { InputLabel } from '@mui/material';
+import { InputLabel, Button } from '@mui/material';
 
 // TODO: switch to secret on beta release
 // TODO: switch to influxdb hostname instead of localhost (might require nginx configuration)
@@ -14,10 +14,13 @@ const INFLUX_BUCKET = "speed-test-metrics";
 
 const UPDATE_INTERVAL = 3000 // 3 seconds
 
-const fetchData = (bucket, queryApi, setData) => {
+const fetchData = (bucket, queryApi, setData, from, to) => {
     const newData = []
+    const now = new Date();
+    const fromDate = from ? new Date(from.toString()) : new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const toDate = to ? new Date(to.toString()) : now;
     const query = flux`from(bucket: "${bucket}") 
-                                |> range(start: -7d)
+                                |> range(start: ${fromDate}, stop: ${toDate})
                                 |> filter(fn: (r) => r._measurement == "speed-test")`
     queryApi.queryRows(query, {
         next(row, tableMeta) {
@@ -39,12 +42,13 @@ const DynamicData = () => {
     const [data, setData] = useState([]);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
+    let queryApi;
     useEffect(() => {
         const client = new InfluxDB({url: INFLUX_URL, token: INFLUX_TOKEN})
-        const queryApi = client.getQueryApi(INFLUX_ORG)
+        queryApi = client.getQueryApi(INFLUX_ORG)
 
         const interval = setInterval(() => {
-            fetchData(INFLUX_BUCKET, queryApi, setData);
+            fetchData(INFLUX_BUCKET, queryApi, setData, from, to);
         }, UPDATE_INTERVAL);
 
         return () => clearInterval(interval);
@@ -80,8 +84,9 @@ const DynamicData = () => {
 
     return (
         <div>
-            <InputLabel>From:</InputLabel> <DateTimePicker value={from} onChange={}/>
-            <InputLabel>To:</InputLabel> <DateTimePicker value={to}/>
+            <InputLabel>From:</InputLabel> <DateTimePicker value={from} onChange={(v)=>setFrom(v)}/>
+            <InputLabel>To:</InputLabel> <DateTimePicker value={to} onChange={(v)=>setTo(v)}/>
+            <Button variant="contained" onClick={()=>fetchData(INFLUX_BUCKET, queryApi, setData, from, to)}>Submit</Button>
             <ReactEcharts option={option} className={classes.DynamicData}/>
         </div>
     )
