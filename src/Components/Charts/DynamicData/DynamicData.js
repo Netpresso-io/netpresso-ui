@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import classes from "./DynamicData.module.css";
 import ReactEcharts from "echarts-for-react";
-import {InfluxDB, flux } from "@influxdata/influxdb-client";
-import { DateTimePicker } from "@mui/x-date-pickers";
-import { InputLabel, Button } from '@mui/material';
+import {InfluxDB, flux} from "@influxdata/influxdb-client";
+import {DateTimePicker} from "@mui/x-date-pickers";
+import {FormLabel, Button, FormControl} from '@mui/material';
 
 // TODO: switch to secret on beta release
 // TODO: switch to influxdb hostname instead of localhost (might require nginx configuration)
@@ -35,7 +35,8 @@ const fetchData = (bucket, queryApi, setData, from, to) => {
         complete() {
             setData(newData);
             console.log('Finished SUCCESS')
-        }})
+        }
+    })
 }
 
 const DynamicData = () => {
@@ -63,7 +64,7 @@ const DynamicData = () => {
             trigger: "axis",
             formatter: function (params) {
                 const now = new Date(params[0].value[0])
-                return `${now.getDate()}/${now.getMonth()+1}  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${params[0].value[1]} mb/s`
+                return `${now.getDate()}/${now.getMonth() + 1}  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${params[0].value[1]} mb/s`
             },
         },
         xAxis: {
@@ -84,9 +85,14 @@ const DynamicData = () => {
 
     return (
         <div>
-            <InputLabel>From:</InputLabel> <DateTimePicker value={from} onChange={(v)=>setFrom(v)}/>
-            <InputLabel>To:</InputLabel> <DateTimePicker value={to} onChange={(v)=>setTo(v)}/>
-            <Button variant="contained" onClick={()=>fetchData(INFLUX_BUCKET, queryApi, setData, from, to)}>Submit</Button>
+            <FormControl className={classes.Form}>
+                <FormLabel>From:</FormLabel>
+                <DateTimePicker value={from} onChange={(v) => setFrom(v)}/>
+                <FormLabel>To:</FormLabel>
+                <DateTimePicker value={to} onChange={(v) => setTo(v)}/>
+                <Button variant="contained"
+                        onClick={() => fetchData(INFLUX_BUCKET, queryApi, setData, from, to)}>Submit</Button>
+            </FormControl>
             <ReactEcharts option={option} className={classes.DynamicData}/>
         </div>
     )
