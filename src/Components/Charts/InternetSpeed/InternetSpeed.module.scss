@@ -1,0 +1,21 @@
+.InternetSpeed {
+    text-align: center;
+}
+
+.DynamicData {
+    max-width: 1000px;
+    margin-left: 50px;
+}
+.Form {
+    margin-top:40px;
+    max-width:600px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    &, & input, & label {
+        font-size: 12px;
+    }
+    button {
+        margin-left: 8px;
+    }
+}

@@ -1,0 +1,8 @@
+.Layout {
+    /*noinspection CssInvalidPropertyValue*/
+    display: grid;
+    grid-template-columns: 40% 60%;
+    justify-items: center;
+    align-items: center;
+    padding:40px;
+}

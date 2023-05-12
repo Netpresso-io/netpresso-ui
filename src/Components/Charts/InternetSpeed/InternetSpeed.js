@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from "react";
+<<<<<<< Updated upstream:src/Components/Charts/DynamicData/DynamicData.js
 import classes from "./DynamicData.module.css"
+=======
+import classes from "./InternetSpeed.module.scss";
+>>>>>>> Stashed changes:src/Components/Charts/InternetSpeed/InternetSpeed.js
 import ReactEcharts from "echarts-for-react";
 import {InfluxDB, flux } from "@influxdata/influxdb-client";
 
@@ -33,7 +37,7 @@ const fetchData = (bucket, queryApi, setData) => {
         }})
 }
 
-const DynamicData = () => {
+const InternetSpeed = () => {
     const [data, setData] = useState([]);
     useEffect(() => {
         const client = new InfluxDB({url: INFLUX_URL, token: INFLUX_TOKEN})
@@ -48,9 +52,6 @@ const DynamicData = () => {
 
 
     const option = {
-        title: {
-            text: "Internet Speed",
-        },
         tooltip: {
             trigger: "axis",
             formatter: function (params) {
@@ -74,7 +75,25 @@ const DynamicData = () => {
         ]
     }
 
+<<<<<<< Updated upstream:src/Components/Charts/DynamicData/DynamicData.js
     return <ReactEcharts option={option} className={classes.DynamicData}/>
+=======
+    return (
+        <div className={classes.InternetSpeed}>
+            <h3>Internet Speed</h3>
+            <FormControl>
+                <div className={classes.Form}>
+                    <DateTimePicker slotProps={{textField: {size: 'small', placeholder:'From'}}} value={from} onChange={(v) => setFrom(v)}/>
+                    <DateTimePicker slotProps={{textField: {size: 'small', placeholder:'To'}}} value={to} onChange={(v) => setTo(v)}/>
+                    <Button variant="contained" size={"small"}
+                            onClick={() => fetchData(INFLUX_BUCKET, queryApi, setData, from, to)}>Submit</Button>
+                </div>
+            </FormControl>
+
+            <ReactEcharts option={option} className={classes.DynamicData}/>
+        </div>
+    )
+>>>>>>> Stashed changes:src/Components/Charts/InternetSpeed/InternetSpeed.js
 };
 
-export default DynamicData;
+export default InternetSpeed;
