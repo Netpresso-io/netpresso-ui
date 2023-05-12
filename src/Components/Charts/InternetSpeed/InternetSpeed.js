@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import classes from "./DynamicData.module.css";
+import classes from "./InternetSpeed.module.scss";
 import ReactEcharts from "echarts-for-react";
 import {InfluxDB, flux} from "@influxdata/influxdb-client";
 import {DateTimePicker} from "@mui/x-date-pickers";
@@ -39,7 +39,7 @@ const fetchData = (bucket, queryApi, setData, from, to) => {
     })
 }
 
-const DynamicData = () => {
+const InternetSpeed = () => {
     const [data, setData] = useState([]);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
@@ -57,9 +57,6 @@ const DynamicData = () => {
 
 
     const option = {
-        title: {
-            text: "Internet Speed",
-        },
         tooltip: {
             trigger: "axis",
             formatter: function (params) {
@@ -84,18 +81,20 @@ const DynamicData = () => {
     }
 
     return (
-        <div>
-            <FormControl className={classes.Form}>
-                <FormLabel>From:</FormLabel>
-                <DateTimePicker value={from} onChange={(v) => setFrom(v)}/>
-                <FormLabel>To:</FormLabel>
-                <DateTimePicker value={to} onChange={(v) => setTo(v)}/>
-                <Button variant="contained"
-                        onClick={() => fetchData(INFLUX_BUCKET, queryApi, setData, from, to)}>Submit</Button>
+        <div className={classes.InternetSpeed}>
+            <h3>Internet Speed</h3>
+            <FormControl>
+                <div className={classes.Form}>
+                    <DateTimePicker slotProps={{textField: {size: 'small', placeholder:'From'}}} value={from} onChange={(v) => setFrom(v)}/>
+                    <DateTimePicker slotProps={{textField: {size: 'small', placeholder:'To'}}} value={to} onChange={(v) => setTo(v)}/>
+                    <Button variant="contained" size={"small"}
+                            onClick={() => fetchData(INFLUX_BUCKET, queryApi, setData, from, to)}>Submit</Button>
+                </div>
             </FormControl>
+
             <ReactEcharts option={option} className={classes.DynamicData}/>
         </div>
     )
 };
 
-export default DynamicData;
+export default InternetSpeed;
