@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from "./TopDNS.module.scss";
+import axios from "axios";
 
 import ReactEcharts from "echarts-for-react";
 
 const TopDNS = () => {
-    const option={
+    const [data, setData] = useState([])
+    useEffect(() => {
+        axios.get("http://localhost:5000/top-dns", {params: {file_name: "test.pcap"}})
+            .then((res) => {
+                let newData = [];
+                res.data.forEach(el => newData.push({value: el[1], name: el[0]}));
+                setData(newData);
+            }).catch(err => console.log(err))
+    },[])
+    const option = {
         legend: {
             top: 'bottom'
         },
@@ -17,13 +27,7 @@ const TopDNS = () => {
                 itemStyle: {
                     borderRadius: 8
                 },
-                data: [
-                    { value: 40, name: 'Domain 1' },
-                    { value: 30, name: 'Domain 2' },
-                    { value: 20, name: 'Domain 3' },
-                    { value: 10, name: 'Domain 4' },
-                    { value: 3, name: 'Domain 5' },
-                ]
+                data: data
             }
         ]
     }
