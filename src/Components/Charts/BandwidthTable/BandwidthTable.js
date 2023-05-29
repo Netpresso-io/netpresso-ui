@@ -53,8 +53,8 @@ const BandwidthTable = () => {
                                 <TableCell component="th" scope="row">
                                     {el.ip}
                                 </TableCell>
-                                <TableCell align="left"><ProgressBar now={el.download*100/overallDownload} label={(el.download*100/overallDownload).toFixed(1)+"Kb/s"}/></TableCell>
-                                <TableCell align="left"><ProgressBar now={el.upload*100/overallUpload} label={(el.upload*100/overallUpload).toFixed(1)+"Kb/s"}/></TableCell>
+                                <TableCell align="left"><ProgressBar now={el.download*100/overallDownload} label={(el.download).toFixed(1)+"Kb/s"}/></TableCell>
+                                <TableCell align="left"><ProgressBar now={el.upload*100/overallUpload} label={(el.upload).toFixed(1)+"Kb/s"}/></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

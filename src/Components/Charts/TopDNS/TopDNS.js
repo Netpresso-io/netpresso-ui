@@ -18,15 +18,17 @@ const TopDNS = () => {
         legend: {
             top: 'bottom'
         },
+        tooltip: {
+            trigger: 'item'
+        },
         series: [
             {
-                name: 'Nightingale Chart',
+                name: 'Top DNS',
                 type: 'pie',
-                radius: [25, 125],
+                radius: '55%',
                 center: ['50%', '50%'],
-                itemStyle: {
-                    borderRadius: 8
-                },
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
                 data: data
             }
         ]
