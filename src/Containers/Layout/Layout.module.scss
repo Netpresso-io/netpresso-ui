@@ -1,7 +1,8 @@
 .Layout {
     /*noinspection CssInvalidPropertyValue*/
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 70vh 30vh;
     justify-items: center;
     align-items: center;
     padding:40px;
