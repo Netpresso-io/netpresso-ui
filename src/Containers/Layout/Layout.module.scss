@@ -2,8 +2,11 @@
     /*noinspection CssInvalidPropertyValue*/
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 50vh 30vh;
     justify-items: center;
     align-items: center;
     padding:40px;
+
+    div h3 {
+        font-size: 1.5rem;
+    }
 }

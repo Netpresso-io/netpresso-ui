@@ -5,15 +5,15 @@ import axios from "axios";
 import ReactEcharts from "echarts-for-react";
 
 const TopDNS = () => {
-    const [data, setData] = useState([])
+    const [dns, setData] = useState([])
     useEffect(() => {
-        axios.get("http://localhost:5000/top-dns", {params: {file_name: "test.pcap"}})
+        axios.get("http://localhost:5000/top-dns", {params: {file_name: "bigFlows.pcap", packet_amount: 200000}})
             .then((res) => {
                 let newData = [];
                 res.data.forEach(el => newData.push({value: el[1], name: el[0]}));
                 setData(newData);
             }).catch(err => console.log(err))
-    },[])
+    }, [])
     const option = {
         legend: {
             top: 'bottom'
@@ -29,7 +29,7 @@ const TopDNS = () => {
                 center: ['50%', '50%'],
                 animationType: 'scale',
                 animationEasing: 'elasticOut',
-                data: data
+                data: dns
             }
         ]
     }
