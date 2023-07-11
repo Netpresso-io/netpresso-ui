@@ -11,26 +11,22 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import axios from "axios";
 
 const BandwidthTable = () => {
-    let overallDownload = 0;
-    let overallUpload = 0;
-    const [data, setData] = useState([])
+    const [bandwidth, setData] = useState([])
     useEffect(() => {
-        axios.get("http://localhost:5000/bandwidth-usage", {params: {file_name: "test.pcap"}})
+        axios.get("http://localhost:5000/bandwidth-usage", {params: {file_name: "bigFlows.pcap", packet_amount: 200000}})
             .then((res) => {
-                const newData = Array(res.data).map(el=>{
-                    const curIP = Object.keys(el)[0];
-                    return {
+                console.log(res)
+                const newData = []
+                for (const el in res.data){
+                    const curIP = el;
+                    newData.push({
                         ip: curIP,
-                        download: el[curIP]["download_speed"],
-                        upload: el[curIP]["upload_speed"]
-                    }
-                })
+                        download: res.data[el]["download_speed"],
+                        upload: res.data[el]["upload_speed"]})
+                }
                 setData(newData);
             }).catch(err => console.log(err))
-    },[overallDownload, overallUpload])
-
-    overallDownload = data.reduce((sum, cur) => sum+cur.download, 0);
-    overallUpload = data.reduce((sum, cur) => sum+cur.upload, 0);
+    }, [])
 
     return (
         <div className={classes.BandwidthTable}>
@@ -45,7 +41,7 @@ const BandwidthTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((el) => (
+                        {bandwidth.map((el) => (
                             <TableRow
                                 key={el.ip}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -53,8 +49,10 @@ const BandwidthTable = () => {
                                 <TableCell component="th" scope="row">
                                     {el.ip}
                                 </TableCell>
-                                <TableCell align="left"><ProgressBar now={el.download*100/overallDownload} label={(el.download).toFixed(1)+"Kb/s"}/></TableCell>
-                                <TableCell align="left"><ProgressBar now={el.upload*100/overallUpload} label={(el.upload).toFixed(1)+"Kb/s"}/></TableCell>
+                                <TableCell align="left"><ProgressBar now={100}
+                                                                     label={(el.download).toFixed(1) + "Kb/s"}/></TableCell>
+                                <TableCell align="left"><ProgressBar now={100}
+                                                                     label={(el.upload).toFixed(1) + "Kb/s"}/></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
