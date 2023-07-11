@@ -1,14 +1,17 @@
 import React from 'react';
-import  "./Layout.module.css"
-import classes from "./Layout.module.css";
+import  "./Layout.module.scss"
+import classes from "./Layout.module.scss";
 import Navbar from "../../Components/Navigation/Navbar/Navbar";
-import DynamicData from "../../Components/Charts/DynamicData/DynamicData";
+import InternetSpeed from "../../Components/Charts/InternetSpeed/InternetSpeed";
+import TopDNS from "../../Components/Charts/TopDNS/TopDNS";
+import BandwidthTable from "../../Components/Charts/BandwidthTable/BandwidthTable";
 
 const Layout = () => {
     return (
         <div className={classes.Layout}>
-            <Navbar/>
-            <DynamicData/>
+            <InternetSpeed/>
+            <TopDNS/>
+            <BandwidthTable/>
         </div>
     );
 };
