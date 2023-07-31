@@ -1,11 +1,5 @@
 .Layout {
-    /*noinspection CssInvalidPropertyValue*/
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    justify-items: center;
-    align-items: center;
-    padding:40px;
-
+    padding-left:240px;
     div h3 {
         font-size: 1.5rem;
     }
