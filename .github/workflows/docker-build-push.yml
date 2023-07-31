@@ -32,7 +32,7 @@ jobs:
             git config --global user.name "tech-user"
             cd netpresso-core
             git checkout -b update-tag-${{ env.REV_ID }}
-            yq -i '.web.image = "netpresso/netpresso-ui:${{ env.REV_ID }}"' docker-compose.yaml
+            yq -i '.services.web.image = "netpresso/netpresso-ui:${{ env.REV_ID }}"' docker-compose.yaml
             git add .
             git commit -m "Update tag ${{ env.REV_ID }}"
             git status
