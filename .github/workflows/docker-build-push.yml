@@ -19,3 +19,15 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push Image to Dockerhub
       run: docker push netpresso/netpresso-ui:$(git rev-parse --short HEAD)
+    - name: Set Up yq
+      uses: mikefarah/yq@v4.34.2
+    - name: Update Tag
+      run: |
+            git clone https://github.com/Netpresso-io/netpresso-core.git
+            git checkout -b update-tag-$(git rev-parse --short HEAD)
+            yq -i '.web.image = "netpresso/netpresso-ui:$(git rev-parse --short HEAD)"'
+            git add .
+            git commit -m "Update tag $(git rev-parse --short HEAD)"
+            git push -u origin update-tag-$(git rev-parse --short HEAD)
+            gh pr create --title "Update Tag $(git rev-parse --short HEAD)" --head "update-tag-$(git rev-parse --short HEAD)" --base main
+
