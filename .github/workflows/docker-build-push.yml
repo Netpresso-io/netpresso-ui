@@ -23,12 +23,16 @@ jobs:
       uses: mikefarah/yq@v4.34.2
     - name: Update Tag
       run: |
-            git clone https://github.com/Netpresso-io/netpresso-core.git
+            git clone https://tech-user:${{ secrets.REPO_TOKEN }}@github.com/Netpresso-io/netpresso-core.git
             git checkout -b update-tag-$(git rev-parse --short HEAD)
             cd netpresso-core
             yq -i '.web.image = "netpresso/netpresso-ui:$(git rev-parse --short HEAD)"' docker-compose.yaml
+            git config user.email "tech-user@netpresso.com"
+            git config user.name "tech-user"
             git add .
             git commit -m "Update tag $(git rev-parse --short HEAD)"
             git push -u origin update-tag-$(git rev-parse --short HEAD)
+            echo "${{ secrets.REPO_TOKEN }}" > token.txt
+            gh auth login --with-token < token.txt
             gh pr create --title "Update Tag $(git rev-parse --short HEAD)" --head "update-tag-$(git rev-parse --short HEAD)" --base main
 
