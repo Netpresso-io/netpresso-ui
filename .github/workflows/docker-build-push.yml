@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: Get git revision
-      run: echo "REV_ID=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+      run: echo "REV_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag "netpresso/netpresso-ui:${{ env.REV_ID }}"
