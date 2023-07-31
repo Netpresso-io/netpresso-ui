@@ -39,5 +39,5 @@ jobs:
             git push -u origin update-tag-${{ env.REV_ID }}
             echo "${{ secrets.REPO_TOKEN }}" > token.txt
             gh auth login --with-token < token.txt
-            gh pr create --title "Update Tag $REV_ID" --head "update-tag-${{ env.REV_ID }}" --base main
+            gh pr create --title "Update Tag $REV_ID" --body "" --head "update-tag-${{ env.REV_ID }}" --base main
 
