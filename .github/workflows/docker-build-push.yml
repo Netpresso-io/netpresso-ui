@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  REV_ID: $(git rev-parse --short HEAD)
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,28 +14,28 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag netpresso/netpresso-ui:$(git rev-parse --short HEAD)
+      run: docker build . --file Dockerfile --tag netpresso/netpresso-ui:$REV_ID
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Push Image to Dockerhub
-      run: docker push netpresso/netpresso-ui:$(git rev-parse --short HEAD)
+      run: docker push netpresso/netpresso-ui:$REV_ID
     - name: Set Up yq
       uses: mikefarah/yq@v4.34.2
     - name: Update Tag
       run: |
             git clone https://tech-user:${{ secrets.REPO_TOKEN }}@github.com/Netpresso-io/netpresso-core.git
-            git checkout -b update-tag-$(git rev-parse --short HEAD)
+            git checkout -b update-tag-$REV_ID
             cd netpresso-core
-            yq -i '.web.image = "netpresso/netpresso-ui:$(git rev-parse --short HEAD)"' docker-compose.yaml
+            yq -i '.web.image = "netpresso/netpresso-ui:$REV_ID"' docker-compose.yaml
             git config user.email "tech-user@netpresso.com"
             git config user.name "tech-user"
             git add .
-            git commit -m "Update tag $(git rev-parse --short HEAD)"
-            git push -u origin update-tag-$(git rev-parse --short HEAD)
+            git commit -m "Update tag $REV_ID"
+            git push -u origin update-tag-$REV_ID
             echo "${{ secrets.REPO_TOKEN }}" > token.txt
             gh auth login --with-token < token.txt
-            gh pr create --title "Update Tag $(git rev-parse --short HEAD)" --head "update-tag-$(git rev-parse --short HEAD)" --base main
+            gh pr create --title "Update Tag $REV_ID" --head "update-tag-$REV_ID" --base main
 
