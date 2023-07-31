@@ -28,8 +28,8 @@ jobs:
       shell: bash
       run: |
             git clone https://tech-user:${{ secrets.REPO_TOKEN }}@github.com/Netpresso-io/netpresso-core.git
-            git config user.email "tech-user@netpresso.com"
-            git config user.name "tech-user"
+            git config --global user.email "tech-user@netpresso.com"
+            git config --global user.name "tech-user"
             cd netpresso-core
             git checkout -b update-tag-${{ env.REV_ID }}
             yq -i '.web.image = "netpresso/netpresso-ui:${{ env.REV_ID }}"' docker-compose.yaml
