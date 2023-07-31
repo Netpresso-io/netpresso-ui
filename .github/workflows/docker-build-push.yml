@@ -28,15 +28,15 @@ jobs:
       shell: bash
       run: |
             git clone https://tech-user:${{ secrets.REPO_TOKEN }}@github.com/Netpresso-io/netpresso-core.git
-            git checkout -b update-tag-${{ env.REV_ID }}
-            cd netpresso-core
-            yq -i '.web.image = "netpresso/netpresso-ui:${{ env.REV_ID }}"' docker-compose.yaml
             git config user.email "tech-user@netpresso.com"
             git config user.name "tech-user"
+            cd netpresso-core
+            git checkout -b update-tag-${{ env.REV_ID }}
+            yq -i '.web.image = "netpresso/netpresso-ui:${{ env.REV_ID }}"' docker-compose.yaml
             git add .
             git commit -m "Update tag ${{ env.REV_ID }}"
-            git config --global push.default current
-            git push -u
+            git status
+            git push -u origin update-tag-${{ env.REV_ID }}
             echo "${{ secrets.REPO_TOKEN }}" > token.txt
             gh auth login --with-token < token.txt
             gh pr create --title "Update Tag $REV_ID" --head "update-tag-${{ env.REV_ID }}" --base main
