@@ -25,6 +25,7 @@ jobs:
       run: |
             git clone https://github.com/Netpresso-io/netpresso-core.git
             git checkout -b update-tag-$(git rev-parse --short HEAD)
+            cd netpresso-core
             yq -i '.web.image = "netpresso/netpresso-ui:$(git rev-parse --short HEAD)"' docker-compose.yaml
             git add .
             git commit -m "Update tag $(git rev-parse --short HEAD)"
