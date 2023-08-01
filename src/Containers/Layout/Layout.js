@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import  "./Layout.module.scss"
 import classes from "./Layout.module.scss";
-import Navbar from "../../Components/Navigation/Navbar/Navbar";
 import InternetSpeed from "../../Components/Charts/InternetSpeed/InternetSpeed";
 import TopDNS from "../../Components/Charts/TopDNS/TopDNS";
 import BandwidthTable from "../../Components/Charts/BandwidthTable/BandwidthTable";
-import axios from "axios";
+import { Routes, Route } from 'react-router-dom';
+
 
 const Layout = () => {
     return (
         <div className={classes.Layout}>
-            <InternetSpeed/>
-            <TopDNS/>
-            <BandwidthTable />
+            <Routes>
+                <Route path={"/"} element={<div>Home</div>}/>
+                <Route path={"/speed"} element={<InternetSpeed/>}/>
+                <Route path={"/topdns"} element={<TopDNS/>}/>
+                <Route path={"/bandwidth"} element={<BandwidthTable/>}/>
+            </Routes>
         </div>
     );
 };

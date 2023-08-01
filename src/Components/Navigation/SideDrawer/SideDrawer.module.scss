@@ -1,0 +1,10 @@
+.SideDrawer {
+  position: relative;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  li > *{
+    width:100%;
+  }
+}
