@@ -13,17 +13,10 @@ import axios from "axios";
 const BandwidthTable = () => {
     const [bandwidth, setData] = useState([])
     useEffect(() => {
-        axios.get("http://localhost:5000/bandwidth-usage", {params: {file_name: "bigFlows.pcap", packet_amount: 200000}})
+        axios.get("http://localhost:5000/bandwidth-usage")
             .then((res) => {
-                console.log(res)
                 const newData = []
-                for (const el in res.data){
-                    const curIP = el;
-                    newData.push({
-                        ip: curIP,
-                        download: res.data[el]["download_speed"],
-                        upload: res.data[el]["upload_speed"]})
-                }
+                res.data.forEach(el => newData.push({ip:el.ip, download:el.download, upload:el.upload}))
                 setData(newData);
             }).catch(err => console.log(err))
     }, [])
@@ -50,9 +43,9 @@ const BandwidthTable = () => {
                                     {el.ip}
                                 </TableCell>
                                 <TableCell align="left"><ProgressBar now={100}
-                                                                     label={(el.download).toFixed(1) + "Kb/s"}/></TableCell>
+                                                                     label={(el.download) + "Mb/s"}/></TableCell>
                                 <TableCell align="left"><ProgressBar now={100}
-                                                                     label={(el.upload).toFixed(1) + "Kb/s"}/></TableCell>
+                                                                     label={(el.upload)+ "Mb/s"}/></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

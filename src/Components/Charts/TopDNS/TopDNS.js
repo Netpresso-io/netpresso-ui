@@ -7,10 +7,10 @@ import ReactEcharts from "echarts-for-react";
 const TopDNS = () => {
     const [dns, setData] = useState([])
     useEffect(() => {
-        axios.get("http://localhost:5000/top-dns", {params: {file_name: "bigFlows.pcap", packet_amount: 200000}})
+        axios.get("http://localhost:5000/top-dns")
             .then((res) => {
                 let newData = [];
-                res.data.forEach(el => newData.push({value: el[1], name: el[0]}));
+                res.data.forEach(el => newData.push({value: el["amount"], name: el["domain"]}));
                 setData(newData);
             }).catch(err => console.log(err))
     }, [])
