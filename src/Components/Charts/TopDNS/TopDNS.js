@@ -6,14 +6,28 @@ import ReactEcharts from "echarts-for-react";
 
 const TopDNS = () => {
     const [dns, setData] = useState([])
+
+
+
     useEffect(() => {
-        axios.get("http://localhost:5000/top-dns")
-            .then((res) => {
-                let newData = [];
-                res.data.forEach(el => newData.push({value: el["amount"], name: el["domain"]}));
-                setData(newData);
-            }).catch(err => console.log(err))
+        const getNewTopDNS = async () => {
+            const newTopDNS = await getTopDNS();
+
+            setData(newTopDNS);
+        }
+        getNewTopDNS();
+        const interval = setInterval(()=>getNewTopDNS(), 15000);
+        return () =>{
+            clearInterval(interval);
+        }
     }, [])
+
+    const getTopDNS = async () => {
+        const res = await axios.get("http://localhost:5000/top-dns");
+        let newData = [];
+        res.data.forEach(el => newData.push({value: el["amount"], name: el["domain"]}));
+        return newData;
+    }
     const option = {
         legend: {
             top: 'bottom'

@@ -4,6 +4,7 @@ import classes from "./Layout.module.scss";
 import InternetSpeed from "../../Components/Charts/InternetSpeed/InternetSpeed";
 import TopDNS from "../../Components/Charts/TopDNS/TopDNS";
 import BandwidthTable from "../../Components/Charts/BandwidthTable/BandwidthTable";
+import Alerts from "../../Components/Charts/Alerts/Alerts";
 import { Routes, Route } from 'react-router-dom';
 
 
@@ -15,6 +16,7 @@ const Layout = () => {
                 <Route path={"/speed"} element={<InternetSpeed/>}/>
                 <Route path={"/topdns"} element={<TopDNS/>}/>
                 <Route path={"/bandwidth"} element={<BandwidthTable/>}/>
+                <Route path={"/alerts"} element={<Alerts/>}/>
             </Routes>
         </div>
     );
