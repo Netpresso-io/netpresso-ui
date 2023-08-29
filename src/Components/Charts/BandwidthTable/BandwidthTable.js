@@ -12,14 +12,27 @@ import axios from "axios";
 
 const BandwidthTable = () => {
     const [bandwidth, setData] = useState([])
+
     useEffect(() => {
-        axios.get("http://localhost:5000/bandwidth-usage")
-            .then((res) => {
-                const newData = []
-                res.data.forEach(el => newData.push({ip:el.ip, download:el.download, upload:el.upload}))
-                setData(newData);
-            }).catch(err => console.log(err))
+        const getBandwidth = async () => {
+            const newBandwidth = await getBandwidthUsage();
+
+            setData(newBandwidth);
+        }
+        getBandwidth();
+        const interval = setInterval(()=>getBandwidth(), 15000);
+        return () =>{
+            clearInterval(interval);
+        }
     }, [])
+
+    const getBandwidthUsage = async () => {
+        const res = await axios.get("http://localhost:5000/bandwidth-usage");
+        const newData = []
+        res.data.forEach(el => newData.push({ip:el.ip, download:el.download, upload:el.upload}))
+        return newData;
+    }
+
 
     return (
         <div className={classes.BandwidthTable}>
