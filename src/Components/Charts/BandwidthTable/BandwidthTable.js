@@ -56,9 +56,9 @@ const BandwidthTable = () => {
                                     {el.ip}
                                 </TableCell>
                                 <TableCell align="left"><ProgressBar now={100}
-                                                                     label={(el.download) + "Mb/s"}/></TableCell>
+                                                                     label={Math.abs(el.download).toFixed(2) + "Kb/s"}/></TableCell>
                                 <TableCell align="left"><ProgressBar now={100}
-                                                                     label={(el.upload)+ "Mb/s"}/></TableCell>
+                                                                     label={Math.abs(el.upload).toFixed(2)+ "Kb/s"}/></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
